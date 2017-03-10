@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - preConditions:
+    - runningAs:
+        username: SA
+
+  - changeSet:
+      id: 1
+      author: ckl
+      changes:
+        - createTable:
+            tableName: counter
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: instance_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false

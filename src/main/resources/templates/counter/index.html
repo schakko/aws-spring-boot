@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>AWS sample application for CI/CD environments</title>
+</head>
+<body>
+	<h1>
+		Instance <span th:text="${@runtimeEnvironment.instanceName}"></span>
+	</h1>
+	<ul>
+		<li><a th:href="@{/counter}">Worker threads</a></li>
+	</ul>
+
+	<section id="worker">
+		<h2>Long running worker process on this instance</h2>
+		<th:block th:switch="${hasLongRunningWorker}">
+			<div th:case="true">Bla</div>
+			<div th:case="false">
+				<em>No long running worker on this instance. Start this
+					instance with "lrw" profile.</em>
+				<!-- print object is not active -->
+			</div>
+		</th:block>
+		<h2>Pausable worker process</h2>
+		<th:block th:switch="${pausableWorker.paused}">
+			<div th:case="true">
+				<strong>Paused</strong>
+				<form method="post" action="/counter/start">
+					<input type="submit" value="Start" />
+				</form>
+			</div>
+			<div th:case="false">
+				<strong>Started - Value </strong>
+				<form method="post" action="/counter/stop">
+					<input type="submit" value="Stop" />
+				</form>
+			</div>
+		</th:block>
+		<h2>All registered workers</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Instance</th>
+					<th>Worker Type</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="worker : ${workers}">
+					<td th:text="${worker.instanceName}"></td>
+					<td th:text="${worker.type}"></td>
+					<td th:text="${worker.value}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+</body>
+</html>

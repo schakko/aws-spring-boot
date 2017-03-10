@@ -1,0 +1,2 @@
+- Pausable Worker starten/beenden
+- Wert aus Worker lesen (Pausable/LongRunning)
