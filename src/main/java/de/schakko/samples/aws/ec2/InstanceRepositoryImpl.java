@@ -8,19 +8,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-public class InstanceRepositoryImpl implements InstanceRepositoryCustom {
+import org.springframework.transaction.annotation.Transactional;
 
+public class InstanceRepositoryImpl implements InstanceRepositoryCustom {
 	@PersistenceContext
 	private EntityManager em;
 
-	@Override
+	@Transactional
 	public void discardOutdatedInstances() {
 		LocalDateTime date = LocalDateTime.now();
-		LocalDateTime r = date.minusSeconds(6000);
+		LocalDateTime r = date.minusSeconds(7200);
 
 		Query q = em.createNativeQuery("DELETE FROM instance WHERE last_contact < ?", Instance.class);
 		q.setParameter(1, Date.from(r.toInstant(ZoneOffset.UTC)));
 		q.executeUpdate();
 	}
-
 }

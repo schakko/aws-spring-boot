@@ -1,21 +1,18 @@
 package de.schakko.samples.aws.worker;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Component
-public class PausableWorker {
-	static final Logger log = LoggerFactory.getLogger(PausableWorker.class);
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
+@Component
+@RequiredArgsConstructor
+public class PausableWorker {
 	private boolean paused = true;
 
+	@NonNull
 	private CounterServiceImpl counterService;
-
-	public PausableWorker(CounterServiceImpl counterService) {
-		this.counterService = counterService;
-	}
 
 	@Scheduled(fixedRate = 10000)
 	public void increment() {

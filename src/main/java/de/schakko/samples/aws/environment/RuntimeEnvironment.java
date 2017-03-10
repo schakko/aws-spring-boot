@@ -1,4 +1,4 @@
-package de.schakko.samples.aws;
+package de.schakko.samples.aws.environment;
 
 import java.util.UUID;
 
@@ -17,14 +17,22 @@ public class RuntimeEnvironment {
 	private static final Logger log = LoggerFactory.getLogger(RuntimeEnvironment.class);
 
 	private boolean inAws = false;
+
 	private String instanceName = UUID.randomUUID().toString();
+
 	private InstanceInfo instanceInfo;
+
+	private GitInfo gitInfo;
 
 	/**
 	 * You can also use <em>@Value("${local.server.port}")</em>.
 	 */
 	@LocalServerPort
-	private int port;
+	private String port;
+
+	public RuntimeEnvironment(GitInfo gitInfo) {
+		this.gitInfo = gitInfo;
+	}
 
 	@PostConstruct
 	void init() {
@@ -52,7 +60,11 @@ public class RuntimeEnvironment {
 		return instanceInfo;
 	}
 
-	public int getPort() {
+	public String getPort() {
 		return port;
+	}
+
+	public GitInfo getGitInfo() {
+		return gitInfo;
 	}
 }

@@ -1,11 +1,11 @@
 package de.schakko.samples.aws.worker;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 
-import de.schakko.samples.aws.RuntimeEnvironment;
+import de.schakko.samples.aws.environment.RuntimeEnvironment;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class is named {@link CounterServiceImpl} and not {@link CounterService}
@@ -14,17 +14,12 @@ import de.schakko.samples.aws.RuntimeEnvironment;
  * @author Schakko
  *
  */
+@AllArgsConstructor
 @Service
+@Slf4j
 public class CounterServiceImpl {
-	private static final Logger log = LoggerFactory.getLogger(CounterServiceImpl.class);
-
 	private CounterRepository repository;
 	private RuntimeEnvironment runtimeEnvironment;
-
-	public CounterServiceImpl(CounterRepository repository, RuntimeEnvironment runtimeEnvironment) {
-		this.repository = repository;
-		this.runtimeEnvironment = runtimeEnvironment;
-	}
 
 	public void incrementCounter(String type) {
 		Counter counter = find(type);
